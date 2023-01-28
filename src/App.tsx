@@ -1,7 +1,10 @@
-import "./App.css";
-
+import { useState } from "react";
+import Lobby from "./routes";
+type theme = "dark" | "light";
 const App = () => {
-    return <div className="App">Projeto virgem 1</div>;
+    const [mode, setMode] = useState<theme>("dark");
+
+    return <Lobby />;
 };
 
 export default App;
