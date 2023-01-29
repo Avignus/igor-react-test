@@ -7,9 +7,17 @@ const ListCharacters = () => {
     const [mode] = useOutletContext<theme>();
 
     const params = useParams();
-    console.log(params);
     console.log(mode);
     const { nome, genero, status, especie } = params;
+    console.log(params);
+    const handleParams = (param: string | undefined) => {
+        if (param) {
+            const newParam = param?.split("=")[1];
+            return newParam;
+        }
+        return "";
+    };
+    // handleParams(nome);
     const GET_CHARACTERS_BY_FILTER = gql`
         query (
             $page: Int
@@ -42,10 +50,10 @@ const ListCharacters = () => {
     const { loading, error, data } = useQuery(GET_CHARACTERS_BY_FILTER, {
         variables: {
             page: 1,
-            name: nome,
-            status,
-            species: especie,
-            gender: genero,
+            name: handleParams(nome),
+            status: handleParams(status),
+            species: handleParams(especie),
+            gender: handleParams(genero),
         },
     });
     useEffect(() => {

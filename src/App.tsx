@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { GlobalStyles } from "./globalStyles";
 import Lobby from "./routes";
-type theme = "dark" | "light";
+import { Theme } from "./utils/types";
 const App = () => {
-    const [mode, setMode] = useState<theme>("dark");
+    const [mode, setMode] = useState<Theme>("dark");
 
-    return <Lobby />;
+    return (
+        <>
+            <Lobby theme={mode} setTheme={setMode} />
+            <GlobalStyles />
+        </>
+    );
 };
 
 export default App;

@@ -15,7 +15,9 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": "."
     },
-    "include": ["src", "src/custom.d.ts"]
+    "include": ["src", "src/custom.d.ts"],
+    "files": ["src/fonts.d.ts", "src/custom.d.ts"]
 }
