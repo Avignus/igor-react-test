@@ -5,6 +5,14 @@ export type Characters = {
     status: string;
     limite: LimitOptions;
 };
+export type CharactersData = {
+    id: string;
+    name: string;
+    status: string;
+    species: string;
+    gender: string;
+    image: string;
+};
 export type LabelGenderTypes = "Gênero: todos" | "masculino" | "feminino";
 export type ValueGenderTypes = "" | "male" | "female";
 

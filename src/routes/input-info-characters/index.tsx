@@ -1,11 +1,9 @@
-import { Outlet } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { InputContainer } from "./styles";
 import Input from "./components/input/input.component";
 import InputSelect from "./components/input-select/input-select.component";
 import RadioComponent from "./components/input-radio";
-import { Characters, LimitOptions, LobbyProps } from "src/utils/types";
+import { Characters, CharactersData } from "src/utils/types";
 import {
     GENDER_LABEL,
     GENDER_OPTIONS,
@@ -15,12 +13,14 @@ import {
     STATUS_LABEL,
     STATUS_OPTIONS,
 } from "src/utils/constants";
-
+import { SearchButton } from "./components/search-button/styles";
+import ListCharacters from "../list-characters";
+import { useGetCharacters } from "src/utils/fetching";
+import ToggleButton from "../toggle-button";
+import { useTheme } from "src/context/ThemeProvider";
 type InputValue = string | number;
 
-const InputInfoCharacters = ({ theme }: LobbyProps) => {
-    // const [selected, setSelected] = useState<LimitOptions>("5");
-
+const InputInfoCharacters = () => {
     const [characterData, setCharacterData] = useState<Characters>({
         nome: "",
         genero: "",
@@ -28,6 +28,16 @@ const InputInfoCharacters = ({ theme }: LobbyProps) => {
         status: "",
         limite: "5",
     });
+    const [charactersList, setCharactersList] = useState<CharactersData[]>([
+        {
+            id: "",
+            name: "",
+            status: "",
+            species: "",
+            gender: "",
+            image: "",
+        },
+    ]);
     const { nome, genero, status, especie, limite } = characterData;
 
     const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,51 +49,54 @@ const InputInfoCharacters = ({ theme }: LobbyProps) => {
             [name]: handleValue,
         });
     };
-
-    const handleFormValues = () => {
-        const formValues = [nome, genero, status, especie];
-        let query = "";
-        formValues.forEach((value, index) => {
-            switch (index) {
-                case 0:
-                    if (value.length > 0) query += `/name=${value}`;
-                    break;
-                case 1:
-                    if (value.length > 0) query += `/gender=${value}`;
-                    break;
-                case 2:
-                    if (value.length > 0) query += `/status=${value}`;
-                    break;
-                case 3:
-                    if (value.length > 0) query += `/species=${value}`;
-                    break;
-            }
-        });
-        return query;
-    };
     useEffect(() => {
         console.log(characterData);
     }, [characterData]);
+
+    const { getCharacters } = useGetCharacters({
+        nome,
+        status,
+        especie,
+        genero,
+        limite,
+    });
+
+    const fetchData = async () => {
+        const response = await getCharacters({
+            variables: {
+                page: 1,
+                name: nome,
+                gender: genero,
+                status: status,
+                species: especie,
+            },
+        });
+        if (response) {
+            const { results } = response.data.characters;
+            console.log(results);
+            setCharactersList(results);
+        }
+    };
+    const { theme } = useTheme();
     return (
         <div>
             <InputContainer>
-                <Input
-                    onChange={handleChangeInput}
-                    theme={theme}
-                    placeholder="Nome"
-                />
+                <Input onChange={handleChangeInput} placeholder="Nome" />
+
                 <InputSelect
                     characterData={characterData}
                     setCharacterData={setCharacterData}
                     name={GENDER_LABEL}
                     options={GENDER_OPTIONS}
                 />
+
                 <InputSelect
                     characterData={characterData}
                     setCharacterData={setCharacterData}
                     name={SPECIES_LABEL}
                     options={SPECIES_OPTIONS}
                 />
+
                 <InputSelect
                     characterData={characterData}
                     setCharacterData={setCharacterData}
@@ -97,12 +110,14 @@ const InputInfoCharacters = ({ theme }: LobbyProps) => {
                     labelText="5"
                     options={LIMIT_OPTIONS}
                 />
-                <Link to={`/list-characters${handleFormValues()}`}>
-                    Buscar personagem
-                </Link>
+                <SearchButton theme={theme} onClick={fetchData}>
+                    Buscar personagens
+                </SearchButton>
+                <ToggleButton />
             </InputContainer>
+            <ListCharacters charactersList={charactersList} limite={limite} />
 
-            <Outlet context={[theme]} />
+            {/* <Outlet context={[theme, characterData]} /> */}
         </div>
     );
 };

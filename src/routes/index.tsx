@@ -1,29 +1,15 @@
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { useTheme } from "src/context/ThemeProvider";
 import InputInfoCharacters from "./input-info-characters";
-import ListCharacters from "./list-characters";
 import { LobbyContainer, Title, TitleContainer } from "./styles";
-import { LobbyProps } from "src/utils/types";
 
-const Lobby = ({ theme, setTheme }: LobbyProps) => {
-    console.log(theme);
+const Lobby = () => {
+    const { theme } = useTheme();
     return (
         <LobbyContainer theme={theme}>
             <TitleContainer>
                 <Title>Rick and Morty - Personagens</Title>
             </TitleContainer>
-            <Router>
-                <Routes>
-                    <Route
-                        path="/"
-                        element={<InputInfoCharacters theme={theme} />}
-                    >
-                        <Route
-                            path="list-characters/:nome?/:genero?/:especie?/:status?"
-                            element={<ListCharacters />}
-                        />
-                    </Route>
-                </Routes>
-            </Router>
+            <InputInfoCharacters />
         </LobbyContainer>
     );
 };

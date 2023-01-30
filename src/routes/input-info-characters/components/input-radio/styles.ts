@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type RootProps = {
     size?: number;
@@ -9,7 +9,15 @@ type FillProps = {
     fillColor?: string;
     borderActive?: string;
 };
+type LimitLabel = {
+    option: string;
+    theme: string;
+};
+type LimitLabelText = {
+    theme: string;
+};
 export const Root = styled.div<RootProps>`
+    color: white;
     margin-left: 30px;
     cursor: pointer;
     width: ${(props) => (props.size ? props.size : 20)}px;
@@ -89,4 +97,37 @@ export const Input = styled.input`
             }
         }
     }
+`;
+
+export const Span = styled.span<LimitLabel>`
+    position: relative;
+    font-family: poppins;
+    ${({ theme }) =>
+        theme === "dark"
+            ? css`
+                  color: white;
+              `
+            : css`
+                  right: 10px;
+                  color: black;
+              `}
+    ${({ option }) =>
+        option === "5"
+            ? css`
+                  right: 2px;
+              `
+            : css`
+                  right: 10px;
+              `}
+`;
+
+export const LimitLabelComponent = styled.span<LimitLabelText>`
+    ${({ theme }) =>
+        theme === "dark"
+            ? css`
+                  color: white;
+              `
+            : css`
+                  color: black;
+              `}
 `;

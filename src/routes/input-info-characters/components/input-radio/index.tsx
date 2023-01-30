@@ -1,6 +1,7 @@
 import { LimitOptions, LimitOptionsType } from "src/utils/types";
-import { Root, Input, Fill } from "./styles";
+import { Root, Input, Fill, Span, LimitLabelComponent } from "./styles";
 import { Characters } from "src/utils/types";
+import { useTheme } from "src/context/ThemeProvider";
 // type OptionsLabel = "5" | "10" | "20";
 type RadioComponentProps = {
     characterData: Characters;
@@ -21,19 +22,16 @@ const RadioComponent = ({
     name,
     value,
 }: RadioComponentProps) => {
+    const { theme } = useTheme();
     return (
         <>
+            <LimitLabelComponent theme={theme}>Limite</LimitLabelComponent>
             {options.map((option, index) => (
                 <Root key={index}>
                     <label>
-                        <span
-                            style={{
-                                position: "relative",
-                                right: option === "5" ? "2px" : "10px",
-                            }}
-                        >
+                        <Span option={option} theme={theme}>
                             {option}
-                        </span>
+                        </Span>
                         <Input
                             type="radio"
                             onChange={() =>

@@ -6,15 +6,17 @@ import {
 } from "./styles";
 import { ReactComponent as SearchBlackSVG } from "src/assets/search-black.svg";
 import { ReactComponent as SearchWhiteSVG } from "src/assets/search-white.svg";
-import { LobbyProps } from "src/utils/types";
 import React from "react";
+import { useTheme } from "src/context/ThemeProvider";
 
 export type InputProps = {
     placeholder: string;
     onChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
 };
-const Input = ({ theme, placeholder, onChange }: LobbyProps & InputProps) => {
+const Input = ({ placeholder, onChange }: InputProps) => {
+    const { theme } = useTheme();
     const isDark = theme === "dark";
+
     return (
         <InputContainer theme={theme}>
             <IconContainer>
@@ -25,13 +27,13 @@ const Input = ({ theme, placeholder, onChange }: LobbyProps & InputProps) => {
                 )}
             </IconContainer>
             {isDark ? (
-                <InputDarkStyled
+                <InputWhiteStyled
                     name="nome"
                     onChange={onChange}
                     placeholder={placeholder}
                 />
             ) : (
-                <InputWhiteStyled
+                <InputDarkStyled
                     name="nome"
                     onChange={onChange}
                     placeholder={placeholder}

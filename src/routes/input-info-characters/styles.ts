@@ -3,5 +3,6 @@ import styled from "styled-components";
 export const InputContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 20px;
 `;

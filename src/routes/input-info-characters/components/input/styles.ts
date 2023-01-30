@@ -28,20 +28,20 @@ export const InputDarkStyled = styled.input<LobbyProps & InputProps>`
     background-color: transparent;
     ::placeholder,
     ::-webkit-input-placeholder {
-        color: black;
+        color: white;
     }
     :-ms-input-placeholder {
-        color: black;
+        color: white;
     }
 `;
 
 export const InputWhiteStyled = styled(InputDarkStyled)`
     ::placeholder,
     ::-webkit-input-placeholder {
-        color: white;
+        color: gray;
     }
     :-ms-input-placeholder {
-        color: white;
+        color: gray;
     }
 `;
 

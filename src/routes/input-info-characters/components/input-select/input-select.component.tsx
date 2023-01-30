@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "src/context/ThemeProvider";
 import ChevronComponent from "src/routes/chevron";
-import {
-    Options,
-    OptionsType,
-    Characters,
-    // AllOptionsType,
-} from "src/utils/types";
+import { Options, OptionsType, Characters } from "src/utils/types";
 
 import { InputSelectContainer, Option } from "./styles";
 
@@ -35,8 +31,10 @@ const InputSelect = ({
             [name]: selectedOption.value,
         });
     }, [selectedOption]);
+    const { theme } = useTheme();
     return (
         <InputSelectContainer
+            isDark={theme === "dark"}
             totalHeight={(options.length + 2) * 20}
             onClick={() => setOpen(!open)}
             isOpen={open}

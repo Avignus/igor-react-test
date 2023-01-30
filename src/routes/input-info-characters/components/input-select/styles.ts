@@ -3,6 +3,7 @@ import styled, { keyframes, css } from "styled-components";
 type InputSelectProps = {
     isOpen: boolean;
     totalHeight: number;
+    isDark: boolean;
 };
 
 type OptionProps = {
@@ -60,7 +61,16 @@ export const InputSelectContainer = styled.div<InputSelectProps>`
     font-size: 14px;
 
     /* border-radius: 49px; */
-    background-color: white;
+    ${({ isDark }) =>
+        isDark
+            ? css`
+                  background-color: white;
+                  color: gray;
+              `
+            : css`
+                  background-color: gray;
+                  color: white;
+              `}
     width: 150px;
     cursor: pointer;
     ${({ isOpen, totalHeight }) =>
